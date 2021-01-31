@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.danyanetwork.Model.Type;
+import com.example.danyanetwork.Model.UserInfo;
 import com.example.danyanetwork.Network.ApiClient;
 import com.example.danyanetwork.Network.ApiService;
 
@@ -23,19 +24,33 @@ public class MainActivity extends AppCompatActivity {
 
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        Call<List<Type>> call = apiService.getTypes();
-        call.enqueue(new Callback<List<Type>>() {
+        Call<List<UserInfo>> call = apiService.getUsers();
+        call.enqueue(new Callback<List<UserInfo>>() {
             @Override
-            public void onResponse(Call<List<Type>> call, Response<List<Type>> response) {
-              List<Type> data = response.body();
-              int i = 2;
+            public void onResponse(Call<List<UserInfo>> call, Response<List<UserInfo>> response) {
+                List<UserInfo> data = response.body();
+                int i=2;
             }
 
             @Override
-            public void onFailure(Call<List<Type>> call, Throwable t) {
+            public void onFailure(Call<List<UserInfo>> call, Throwable t) {
 
             }
         });
+
+//        Call<List<Type>> call = apiService.getTypes();
+//        call.enqueue(new Callback<List<Type>>() {
+//            @Override
+//            public void onResponse(Call<List<Type>> call, Response<List<Type>> response) {
+//              List<Type> data = response.body();
+//              int i = 2;
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Type>> call, Throwable t) {
+//
+//            }
+//        });
 
     }
 }
