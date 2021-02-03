@@ -6,18 +6,77 @@
     android:layout_height="match_parent"
     tools:context=".RegActivity">
 
+
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="169dp"
-        android:layout_marginTop="286dp"
         android:layout_marginEnd="149dp"
-        android:layout_marginBottom="397dp"
+        android:layout_marginBottom="108dp"
+        android:onClick="onRegClick"
         android:text="Зарегистрироваться"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/etUserId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="92dp"
+        android:ems="10"
+        android:hint="userId"
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:onClick="onRegClick"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etAdId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:ems="10"
+        android:hint="adId"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/etUserId"
+        app:layout_constraintStart_toStartOf="@+id/etUserId"
+        app:layout_constraintTop_toBottomOf="@+id/etUserId" />
+
+    <CheckBox
+        android:id="@+id/cbSeen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:padding="5dp"
+        android:text="Seen"
+        app:layout_constraintStart_toStartOf="@+id/etAdId"
+        app:layout_constraintTop_toBottomOf="@+id/etAdId" />
+
+    <CheckBox
+        android:id="@+id/cbLiked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:padding="5dp"
+        android:text="liked"
+        app:layout_constraintStart_toStartOf="@+id/cbSeen"
+        app:layout_constraintTop_toBottomOf="@+id/cbSeen" />
+
+    <Button
+        android:id="@+id/btnPostHistory"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_button"
+        android:text="Post"
+        android:textColor="@color/myColor"
+        app:backgroundTint="@null"
+        app:layout_constraintEnd_toEndOf="@+id/etUserId"
+        app:layout_constraintStart_toStartOf="@+id/etUserId"
+        app:layout_constraintTop_toBottomOf="@+id/cbLiked"
+        android:onClick="onPostHistoryClick"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

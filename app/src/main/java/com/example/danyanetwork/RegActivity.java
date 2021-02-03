@@ -4,8 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CheckedTextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.danyanetwork.Model.History;
 import com.example.danyanetwork.Model.RegInfo;
 import com.example.danyanetwork.Model.UserInfo;
 import com.example.danyanetwork.Network.ApiClient;
@@ -18,10 +22,18 @@ import retrofit2.Response;
 
 public class RegActivity extends AppCompatActivity {
 
+    EditText etUserId, etAdId;
+    CheckBox cbSeen, cbLiked;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reg);
+
+        etUserId = findViewById(R.id.etUserId);
+        etAdId = findViewById(R.id.etAdId);
+        cbSeen = findViewById(R.id.cbSeen);
+        cbLiked = findViewById(R.id.cbLiked);
     }
 
     public void onRegClick(View view) {
@@ -40,6 +52,33 @@ public class RegActivity extends AppCompatActivity {
                 if(response.code() == 200){
                     Toast.makeText(RegActivity.this, "Ok!", Toast.LENGTH_SHORT).show();
                 }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(RegActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void onPostHistoryClick(View view) {
+
+        History h = new History();
+        Integer userId = Integer.parseInt(etUserId.getText().toString());
+        Integer adId = Integer.parseInt(etAdId.getText().toString());
+        Boolean seen = cbSeen.isChecked();
+        Boolean liked = cbLiked.isChecked();
+        h.setAdId(adId);
+        h.setUserId(userId);
+        h.setSeen(seen);
+        h.setLiked(liked);
+
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Call<ResponseBody> call = apiService.addHistory(h);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Toast.makeText(RegActivity.this, "Success: " + String.valueOf(response.code()), Toast.LENGTH_SHORT).show();
             }
 
             @Override
