@@ -2,6 +2,9 @@ package com.example.danyanetwork;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -24,6 +27,8 @@ public class RegActivity extends AppCompatActivity {
 
     EditText etUserId, etAdId;
     CheckBox cbSeen, cbLiked;
+    SharedPreferences sharedPref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,31 +39,48 @@ public class RegActivity extends AppCompatActivity {
         etAdId = findViewById(R.id.etAdId);
         cbSeen = findViewById(R.id.cbSeen);
         cbLiked = findViewById(R.id.cbLiked);
+        sharedPref = getSharedPreferences("test", Context.MODE_PRIVATE);
+
+        editor = sharedPref.edit();
+        String email = sharedPref.getString("email","");
+        String pass = sharedPref.getString("pass","");
+        if(!email.equals("") && !pass.equals("")){
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+        }
     }
 
     public void onRegClick(View view) {
-        RegInfo user = new RegInfo();
-        user.setEmail("test2021@mail.ru");
-        user.setCompanyName("school998");
-        user.setPassword("123456");
-        user.setPhoneNumber("532476523");
-        user.setRoleId(1);
-
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        Call<ResponseBody> call = apiService.createUser(user);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.code() == 200){
-                    Toast.makeText(RegActivity.this, "Ok!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(RegActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        editor = sharedPref.edit();
+        String email = etUserId.getText().toString();
+        String password = etAdId.getText().toString();
+        editor.putString("email", email);
+        editor.putString("pass", password);
+        editor.apply();
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+//        RegInfo user = new RegInfo();
+//        user.setEmail("test2021@mail.ru");
+//        user.setCompanyName("school998");
+//        user.setPassword("123456");
+//        user.setPhoneNumber("532476523");
+//        user.setRoleId(1);
+//
+//        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+//        Call<ResponseBody> call = apiService.createUser(user);
+//        call.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                if(response.code() == 200){
+//                    Toast.makeText(RegActivity.this, "Ok!", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                Toast.makeText(RegActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     public void onPostHistoryClick(View view) {
