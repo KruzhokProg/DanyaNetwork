@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tvRes = findViewById(R.id.tvRes);
+        //tvRes = findViewById(R.id.tvRes);
         sharedPref = getSharedPreferences("test",Context.MODE_PRIVATE);
         //int defaultValue = getResources().getInteger(R.integer.saved_high_score_default_key);
         String email = sharedPref.getString("email","");

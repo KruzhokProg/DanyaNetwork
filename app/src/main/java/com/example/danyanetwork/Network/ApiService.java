@@ -20,10 +20,13 @@ public interface ApiService {
     Call<List<Type>> getTypes();
     @GET("userinfo")
     Call<List<UserInfo>> getUsers();
+
     @POST("Registration")
     Call<ResponseBody> createUser(@Body RegInfo user);
+
     @POST("history")
     Call<ResponseBody> addHistory(@Body History history);
+
     @DELETE("history")
     Call<ResponseBody> clearHistory(@Query("userId") Integer userId);
 }
