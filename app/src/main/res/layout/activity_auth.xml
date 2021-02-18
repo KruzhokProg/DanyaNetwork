@@ -88,11 +88,12 @@
         android:layout_marginBottom="40dp"
         android:background="#D9D9D9"
         android:fontFamily="Arial"
+        android:onClick="btnNextClick"
         android:text="Продолжить"
         android:textAllCaps="false"
         android:textColor="#706969"
         android:textSize="18sp"
-        app:backgroundTint="null"
+        app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/etPass"
         app:layout_constraintStart_toStartOf="@+id/etPass" />
