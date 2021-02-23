@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DanyaNetwork">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".RegistrationActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".RegActivity" />
         <activity android:name=".Auth">
             <intent-filter>

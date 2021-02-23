@@ -31,6 +31,8 @@
         android:layout_marginEnd="50dp"
         android:background="@drawable/edit_text_custom"
         android:ems="10"
+        android:textColorHint="#000"
+        android:fontFamily="@font/roboto_thin"
         android:hint="Электронная почта"
         android:inputType="textPersonName"
         android:padding="10dp"
@@ -48,7 +50,7 @@
         android:background="@drawable/edit_text_custom"
         android:ems="10"
         android:hint="Пароль"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -56,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/etEmail" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/tvForgetEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
@@ -66,7 +68,8 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/btnNext"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:onClick="btnForgetClick"/>
 
     <TextView
         android:id="@+id/textView4"
@@ -77,9 +80,10 @@
         android:text="Вы еще не с нами? Зарегистрируйтесь!"
         android:textColor="#4596D1"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintBottom_toTopOf="@+id/tvForgetEmail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:onClick="goToReg"/>
 
     <Button
         android:id="@+id/btnNext"

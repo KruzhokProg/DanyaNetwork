@@ -2,12 +2,17 @@ package com.example.danyanetwork;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Auth extends AppCompatActivity {
 
@@ -23,6 +28,7 @@ public class Auth extends AppCompatActivity {
         etPass = findViewById(R.id.etPass);
         btnNext = findViewById(R.id.btnNext);
         btnNext.setClickable(false);
+
 
         etEmail.addTextChangedListener(new TextWatcher() {
             @Override
@@ -52,5 +58,47 @@ public class Auth extends AppCompatActivity {
     }
 
     public void btnNextClick(View view) {
+    }
+
+    public void btnForgetClick(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog dialog = builder.create();
+        final View customLayout = getLayoutInflater().inflate(R.layout.forget_emai_dialog, null);
+        Button btnSendEmail = customLayout.findViewById(R.id.btnSendEmailRecover);
+        EditText etEmailRecover = customLayout.findViewById(R.id.etEmailDialog);
+        btnSendEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("message/rfc822");
+                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{etEmailRecover.getText().toString()});
+                i.putExtra(Intent.EXTRA_SUBJECT, "Email recover from android");
+                i.putExtra(Intent.EXTRA_TEXT   , "follow link");
+                try {
+                    startActivity(Intent.createChooser(i, "Send mail..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(getBaseContext(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+//        builder.setTitle( "Восстановить пароль")
+//                .setView(customLayout)
+//                .setPositiveButton("Отправить", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        EditText editText = customLayout.findViewById(R.id.etEmailDialog);
+//
+//                    }
+//        });
+
+        dialog.setTitle("Восстановление пароля");
+        dialog.setView(customLayout);
+        dialog.show();
+    }
+
+    public void goToReg(View view) {
+        Intent i = new Intent(this, RegistrationActivity.class);
+        startActivity(i);
     }
 }
