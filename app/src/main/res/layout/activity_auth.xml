@@ -23,11 +23,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/etEmail"
+        android:id="@+id/etEmailReg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="50dp"
         android:background="@drawable/edit_text_custom"
         android:ems="10"
@@ -35,15 +35,16 @@
         android:inputType="textPersonName"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <EditText
-        android:id="@+id/etPass"
+        android:id="@+id/etPassReg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="50dp"
         android:background="@drawable/edit_text_custom"
         android:ems="10"
@@ -51,9 +52,9 @@
         android:inputType="textPersonName"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/etEmailReg" />
 
     <TextView
         android:id="@+id/textView3"
@@ -64,7 +65,7 @@
         android:text="Забыли пароль?"
         android:textColor="#4596D1"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnNext"
+        app:layout_constraintBottom_toTopOf="@+id/btnNextReg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -74,6 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="18dp"
         android:fontFamily="@font/roboto_medium"
+        android:onClick="OnClickRegAuth"
         android:text="Вы еще не с нами? Зарегистрируйтесь!"
         android:textColor="#4596D1"
         android:textSize="18sp"
@@ -82,18 +84,19 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btnNext"
+        android:id="@+id/btnNextReg"
         android:layout_width="0dp"
         android:layout_height="68dp"
         android:layout_marginBottom="40dp"
         android:background="#D9D9D9"
-        android:fontFamily="Arial"
+        android:fontFamily="@font/rasa"
+        android:onClick="NextClick"
         android:text="Продолжить"
         android:textAllCaps="false"
         android:textColor="#706969"
         android:textSize="18sp"
-        app:backgroundTint="null"
+        app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/etPass"
-        app:layout_constraintStart_toStartOf="@+id/etPass" />
+        app:layout_constraintEnd_toEndOf="@+id/etPassReg"
+        app:layout_constraintStart_toStartOf="@+id/etPassReg" />
 </androidx.constraintlayout.widget.ConstraintLayout>

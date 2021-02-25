@@ -7,6 +7,8 @@ public class RegInfo {
     private String PhoneNumber;
     private String CompanyName;
 
+    //Testfd
+
     public RegInfo(String email, String password, int roleId, String phoneNumber, String companyName) {
         Email = email;
         Password = password;

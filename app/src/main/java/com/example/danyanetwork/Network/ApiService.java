@@ -1,5 +1,6 @@
 package com.example.danyanetwork.Network;
 
+import com.example.danyanetwork.Model.CheckUser;
 import com.example.danyanetwork.Model.History;
 import com.example.danyanetwork.Model.RegInfo;
 import com.example.danyanetwork.Model.Type;
@@ -18,8 +19,12 @@ import retrofit2.http.Query;
 public interface ApiService {
     @GET("type")
     Call<List<Type>> getTypes();
+
     @GET("userinfo")
     Call<List<UserInfo>> getUsers();
+
+    @GET("checkuser")
+    Call<List<CheckUser>> getUser();
 
     @POST("Registration")
     Call<ResponseBody> createUser(@Body RegInfo user);

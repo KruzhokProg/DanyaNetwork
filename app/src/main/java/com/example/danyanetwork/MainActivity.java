@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 
@@ -30,13 +31,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //tvRes = findViewById(R.id.tvRes);
-        //jhdgfhjdf
-        sharedPref = getSharedPreferences("test",Context.MODE_PRIVATE);
-        //int defaultValue = getResources().getInteger(R.integer.saved_high_score_default_key);
-        String email = sharedPref.getString("email","");
-        String pass = sharedPref.getString("pass","");
-        tvRes.setText(email + " " + pass);
+//        tvRes = findViewById(R.id.tvRes);
+//        jhdgfhjdf
+//        sharedPref = getSharedPreferences("test",Context.MODE_PRIVATE);
+//        int defaultValue = getResources().getInteger(R.integer.saved_high_score_default_key);
+//        String email = sharedPref.getString("email","");
+//        String pass = sharedPref.getString("pass","");
+//        tvRes.setText(email + " " + pass);
 
 //        ApiService apiService = ApiClient.getClient().create(ApiService.class);
 //
@@ -68,15 +69,23 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
-    }
+//    }
 
-    public void btnOutClick(View view) {
-        sharedPref = getSharedPreferences("test",Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("email", "");
-        editor.putString("pass", "");
-        editor.apply();
-        Intent i = new Intent(this, RegActivity.class);
-        startActivity(i);
+//        public void btnOutClick(View view) {
+//        sharedPref = getSharedPreferences("test",Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPref.edit();
+//        editor.putString("email", "");
+//        editor.putString("pass", "");
+//        editor.apply();
+//        Intent i = new Intent(this, RegActivity.class);
+//        startActivity(i);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                Intent i = new Intent(MainActivity.this, Auth.class);
+                startActivity(i);
+            }
+        }, 3000);
     }
 }

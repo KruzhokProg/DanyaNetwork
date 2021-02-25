@@ -8,4 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="myColor">#a51</color>
+    <color name="btnNextValidColorBack">#034EA2</color>
+    <color name="btnNextInvalidColorBack">#D9D9D9</color>
+    <color name="btnNextValidTextColor">#fff</color>
+    <color name="btnNextInvalidTextColor">#706969</color>
 </resources>

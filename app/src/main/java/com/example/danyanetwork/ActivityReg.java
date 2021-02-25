@@ -2,29 +2,28 @@ package com.example.danyanetwork;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.danyanetwork.Model.CheckUser;
+import com.example.danyanetwork.Model.RegInfo;
 import com.example.danyanetwork.Network.ApiClient;
 import com.example.danyanetwork.Network.ApiService;
 
-import java.util.List;
 import java.util.regex.Pattern;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Auth extends AppCompatActivity {
+public class ActivityReg extends AppCompatActivity {
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^" +
                     "(?=.*[0-9])" +         //at least 1 digit
@@ -36,137 +35,140 @@ public class Auth extends AppCompatActivity {
                     ".{6,}" +               //at least 4 characters
                     "$");
 
-    EditText etEmail, etPass;
+    EditText etEmailReg, etPasswordReg, etPasswordConfirm, etCompanyName;
     Button btnNext;
     boolean isEmailValid, isPassValid;
+    ImageView imgvPass, imgvPassConfirm, imgvEmail;
+    Integer roleId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_auth);
 
-        etEmail = findViewById(R.id.etEmailReg);
-        etPass = findViewById(R.id.etPassReg);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+
+        imgvEmail = findViewById(R.id.imgvCloseEmail);
+        imgvPass = findViewById(R.id.imgvPassword);
+        imgvPassConfirm = findViewById(R.id.imgvClosePassConfirm);
+        etEmailReg = findViewById(R.id.etEmailReg);
+        etPasswordReg = findViewById(R.id.etPassReg);
         btnNext = findViewById(R.id.btnNextReg);
         btnNext.setClickable(false);
         isEmailValid = false;
         isPassValid = false;
+        roleId = 1;
+        etCompanyName = findViewById(R.id.etCompanyName);
 
-
-        etEmail.addTextChangedListener(new TextWatcher() {
+        etEmailReg.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String emailInput = etEmail.getEditableText().toString().trim();
+                String emailInputReg = etEmailReg.getEditableText().toString().trim();
 
-                if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches() && isPassValid == false)
-                {
+                if (!s.toString().contains("@") && !s.toString().contains(".")) {
                     btnNext.setClickable(false);
                     btnNext.setBackgroundColor(getResources().getColor(R.color.btnNextInvalidColorBack));
                     btnNext.setTextColor(getResources().getColor(R.color.btnNextInvalidTextColor));
                     isEmailValid = false;
-                    etEmail.setError("Неверный email");
-                }
-
-                else if (emailInput.isEmpty() && isPassValid == false) {
+                    imgvEmail.setVisibility(View.VISIBLE);
+                } else if (emailInputReg.isEmpty()) {
                     btnNext.setClickable(false);
                     btnNext.setBackgroundColor(getResources().getColor(R.color.btnNextInvalidColorBack));
                     btnNext.setTextColor(getResources().getColor(R.color.btnNextInvalidTextColor));
                     isEmailValid = false;
-                    etEmail.setError("Поле не может быть пустое");
-                }
-
-                else if (Patterns.EMAIL_ADDRESS.matcher(emailInput).matches() && isPassValid == false)
-                {
+                    imgvEmail.setVisibility(View.VISIBLE);
+                } else if (s.toString().contains("@") && s.toString().contains(".")) {
                     btnNext.setClickable(false);
                     btnNext.setBackgroundColor(getResources().getColor(R.color.btnNextInvalidColorBack));
                     btnNext.setTextColor(getResources().getColor(R.color.btnNextInvalidTextColor));
-                    isEmailValid = false;
-                    etEmail.setError(null);
-                }
-                else{
+                    isEmailValid = true;
+                    etEmailReg.setError(null);
+                    imgvEmail.setVisibility(View.INVISIBLE);
+                } else if (s.toString().contains("@") && s.toString().contains(".") && isPassValid == true) {
                     btnNext.setClickable(true);
                     btnNext.setBackgroundColor(getResources().getColor(R.color.btnNextValidColorBack));
                     btnNext.setTextColor(getResources().getColor(R.color.white));
                     isEmailValid = true;
-                    etEmail.setError(null);
+                    etEmailReg.setError(null);
+                    imgvEmail.setVisibility(View.INVISIBLE);
                 }
             }
+
+
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
-        etPass.addTextChangedListener(new TextWatcher() {
+        etPasswordReg.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                isPassValid = false;
+
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String passwordInput = etPass.getEditableText().toString().trim();
+                String passwordInputReg = etPasswordReg.getEditableText().toString().trim();
 
-                if (passwordInput.isEmpty()) {
+                if (isEmailValid = true) {
+                    imgvEmail.setVisibility(View.INVISIBLE);
+                }
+
+                if (passwordInputReg.isEmpty()) {
                     btnNext.setClickable(false);
                     btnNext.setBackgroundColor(getResources().getColor(R.color.btnNextInvalidColorBack));
                     btnNext.setTextColor(getResources().getColor(R.color.btnNextInvalidTextColor));
                     isPassValid = false;
-                    etPass.setError("Поле не может быть пустое");
-                } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
+                    imgvPass.setVisibility(View.VISIBLE);
+                } else if (!PASSWORD_PATTERN.matcher(passwordInputReg).matches()) {
                     btnNext.setClickable(false);
                     btnNext.setBackgroundColor(getResources().getColor(R.color.btnNextInvalidColorBack));
                     btnNext.setTextColor(getResources().getColor(R.color.btnNextInvalidTextColor));
                     isPassValid = false;
-                    etPass.setError("Пароль слишком слабый");
-                } else {
+                    imgvPass.setVisibility(View.VISIBLE);
+                } else if (PASSWORD_PATTERN.matcher(passwordInputReg).matches() && isEmailValid == true) {
                     btnNext.setClickable(true);
                     btnNext.setBackgroundColor(getResources().getColor(R.color.btnNextValidColorBack));
                     btnNext.setTextColor(getResources().getColor(R.color.white));
                     isPassValid = true;
-                    etPass.setError(null);
+                    etPasswordReg.setError(null);
+                    imgvPass.setVisibility(View.INVISIBLE);
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
     }
 
-
-    public void OnClickRegAuth(View view)
-    {
-        Intent i = new Intent(this, ActivityReg.class);
-        startActivity(i);
-    }
-
-    public void NextClick(View view)
-    {
-        CheckUser c = new CheckUser();
-        String Email = etEmail.getText().toString();
-        String Password = etPass.getText().toString();
-        c.setEmail(Email);
-        c.setPassword(Password);
+    public void Registration(View view) {
+        RegInfo r = new RegInfo();
+        String Email = etEmailReg.getText().toString();
+        String Password = etPasswordReg.getText().toString();
+        Integer RoleId = this.roleId;
+        String PhoneNumber = "123";
+        String CompanyName = etCompanyName.getText().toString();
+        r.setEmail(Email);
+        r.setPassword(Password);
+        r.setRoleId(RoleId);
+        r.setPhoneNumber(PhoneNumber);
+        r.setCompanyName(CompanyName);
 
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        Call<List<CheckUser>> call = apiService.getUser();
-        call.enqueue(new Callback<List<CheckUser>>() {
+        Call<ResponseBody> call = apiService.createUser(r);
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<List<CheckUser>> call, Response<List<CheckUser>> response) {
-                List<CheckUser> data = response.body();
-                Toast.makeText(Auth.this, "Приветствуем " + etEmail.getText().toString(), Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Toast.makeText(ActivityReg.this, "Добро пожаловать " + etEmailReg.getText().toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFailure(Call<List<CheckUser>> call, Throwable t) {
-                Toast.makeText(Auth.this, "Ошибка: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(ActivityReg.this, "Ошибка: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
