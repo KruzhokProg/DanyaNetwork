@@ -67,7 +67,8 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/btnNextReg"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:onClick="openBottomMenuClick"/>
 
     <TextView
         android:id="@+id/textView4"

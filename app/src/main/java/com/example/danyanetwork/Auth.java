@@ -170,4 +170,9 @@ public class Auth extends AppCompatActivity {
             }
         });
     }
+
+    public void openBottomMenuClick(View view) {
+        Intent i = new Intent(this, NavigationActivity.class);
+        startActivity(i);
+    }
 }

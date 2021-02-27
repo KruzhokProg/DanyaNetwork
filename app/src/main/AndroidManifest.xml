@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DanyaNetwork">
-        <activity android:name=".MenuActivity"></activity>
+        <activity android:name=".NavigationActivity"></activity>
+        <activity android:name=".MenuActivity" />
         <activity android:name=".ActivityReg" />
         <activity android:name=".Auth" />
         <activity android:name=".RegActivity" />
