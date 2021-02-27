@@ -72,23 +72,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPassReg" />
 
-    <EditText
-        android:id="@+id/etCompanyName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="50dp"
-        android:background="@drawable/edit_text_custom"
-        android:ems="10"
-        android:hint="Название компании"
-        android:inputType="textPersonName"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPassConfirm" />
-
     <Button
         android:id="@+id/btnNextReg"
         android:layout_width="0dp"
@@ -105,23 +88,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/etPassReg"
         app:layout_constraintStart_toStartOf="@+id/etPassReg" />
-
-    <Button
-        android:id="@+id/btnType"
-        android:layout_width="0dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="28dp"
-        android:background="#034EA2"
-        android:fontFamily="@font/rasa"
-        android:text="Я частник"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        app:backgroundTint="@null"
-        app:layout_constraintEnd_toEndOf="@+id/etPassReg"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/etPassReg"
-        app:layout_constraintTop_toBottomOf="@+id/etCompanyName" />
 
     <ImageView
         android:id="@+id/imgvPassword"
@@ -152,4 +118,45 @@
         app:layout_constraintStart_toEndOf="@+id/etEmailReg"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:srcCompat="@drawable/oc_share_close" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/transition_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="@+id/etPassConfirm"
+        app:layout_constraintStart_toStartOf="@+id/etPassConfirm"
+        app:layout_constraintTop_toBottomOf="@+id/etPassConfirm">
+
+        <EditText
+            android:id="@+id/etCompanyName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_custom"
+            android:ems="10"
+            android:hint="Название компании"
+            android:inputType="textPersonName"
+            android:padding="10dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnType"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="13dp"
+            android:background="#034EA2"
+            android:fontFamily="@font/rasa"
+            android:text="Я частник"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:backgroundTint="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etCompanyName"
+            android:onClick="btnType_Click"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

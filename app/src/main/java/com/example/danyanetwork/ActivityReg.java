@@ -1,6 +1,9 @@
 package com.example.danyanetwork;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.solver.state.State;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.transition.TransitionManager;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -36,10 +39,11 @@ public class ActivityReg extends AppCompatActivity {
                     "$");
 
     EditText etEmailReg, etPasswordReg, etPasswordConfirm, etCompanyName;
-    Button btnNext;
-    boolean isEmailValid, isPassValid;
+    Button btnNext, btnType;
+    boolean isEmailValid, isPassValid, isPassConfirmValid, isGone;
     ImageView imgvPass, imgvPassConfirm, imgvEmail;
     Integer roleId;
+    ConstraintLayout trans_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +57,8 @@ public class ActivityReg extends AppCompatActivity {
         etEmailReg = findViewById(R.id.etEmailReg);
         etPasswordReg = findViewById(R.id.etPassReg);
         btnNext = findViewById(R.id.btnNextReg);
+        trans_layout = findViewById(R.id.transition_container);
+        btnType = findViewById(R.id.btnType);
         btnNext.setClickable(false);
         isEmailValid = false;
         isPassValid = false;
@@ -66,33 +72,27 @@ public class ActivityReg extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String emailInputReg = etEmailReg.getEditableText().toString().trim();
 
-                if (!s.toString().contains("@") && !s.toString().contains(".")) {
-                    btnNext.setClickable(false);
-                    btnNext.setBackgroundColor(getResources().getColor(R.color.btnNextInvalidColorBack));
-                    btnNext.setTextColor(getResources().getColor(R.color.btnNextInvalidTextColor));
+                String emailInputReg = s.toString();
+
+
+                if (emailInputReg.isEmpty()){
                     isEmailValid = false;
-                    imgvEmail.setVisibility(View.VISIBLE);
-                } else if (emailInputReg.isEmpty()) {
-                    btnNext.setClickable(false);
-                    btnNext.setBackgroundColor(getResources().getColor(R.color.btnNextInvalidColorBack));
-                    btnNext.setTextColor(getResources().getColor(R.color.btnNextInvalidTextColor));
+                }
+                else if (s.toString().contains("@") && s.toString().contains(".")) {
+                    isEmailValid = true;
+                }
+                else{
                     isEmailValid = false;
-                    imgvEmail.setVisibility(View.VISIBLE);
-                } else if (s.toString().contains("@") && s.toString().contains(".")) {
+                }
+
+                if(isEmailValid == false){
                     btnNext.setClickable(false);
                     btnNext.setBackgroundColor(getResources().getColor(R.color.btnNextInvalidColorBack));
                     btnNext.setTextColor(getResources().getColor(R.color.btnNextInvalidTextColor));
-                    isEmailValid = true;
-                    etEmailReg.setError(null);
-                    imgvEmail.setVisibility(View.INVISIBLE);
-                } else if (s.toString().contains("@") && s.toString().contains(".") && isPassValid == true) {
-                    btnNext.setClickable(true);
-                    btnNext.setBackgroundColor(getResources().getColor(R.color.btnNextValidColorBack));
-                    btnNext.setTextColor(getResources().getColor(R.color.white));
-                    isEmailValid = true;
-                    etEmailReg.setError(null);
+                    imgvEmail.setVisibility(View.VISIBLE);
+                }
+                else{
                     imgvEmail.setVisibility(View.INVISIBLE);
                 }
             }
@@ -171,5 +171,19 @@ public class ActivityReg extends AppCompatActivity {
                 Toast.makeText(ActivityReg.this, "Ошибка: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void btnType_Click(View view) {
+        TransitionManager.beginDelayedTransition(trans_layout);
+        isGone = !isGone;
+        if(isGone){
+            etCompanyName.setVisibility(View.GONE);
+            btnType.setText("Я компания");
+        }
+        else{
+            etCompanyName.setVisibility(View.VISIBLE);
+            btnType.setText("Я частник");
+        }
+
     }
 }
