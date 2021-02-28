@@ -29,7 +29,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        sharedPref = getSharedPreferences("userInfo",Context.MODE_PRIVATE);
+        Integer id = sharedPref.getInt("userId", -1);
+        if(id!=-1)
+        {
+            Intent i = new Intent(this, NavigationActivity.class);
+            startActivity(i);
+        }
+        else {
+            setContentView(R.layout.activity_main);
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    Intent i = new Intent(MainActivity.this, Auth.class);
+                    startActivity(i);
+                }
+            }, 3000);
+        }
 
 //        tvRes = findViewById(R.id.tvRes);
 //        jhdgfhjdf
@@ -80,12 +98,6 @@ public class MainActivity extends AppCompatActivity {
 //        Intent i = new Intent(this, RegActivity.class);
 //        startActivity(i);
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                Intent i = new Intent(MainActivity.this, Auth.class);
-                startActivity(i);
-            }
-        }, 3000);
+
     }
 }

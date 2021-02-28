@@ -21,10 +21,10 @@ public interface ApiService {
     Call<List<Type>> getTypes();
 
     @GET("userinfo")
-    Call<List<UserInfo>> getUsers();
+    Call<List<UserInfo>> getUsers(@Query("userId") Integer userId);
 
     @GET("checkuser")
-    Call<List<CheckUser>> getUser();
+    Call<Integer> getUser(@Query("Email") String email, @Query("Password") String pass);
 
     @POST("Registration")
     Call<ResponseBody> createUser(@Body RegInfo user);

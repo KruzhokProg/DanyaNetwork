@@ -3,6 +3,7 @@ package com.example.danyanetwork;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -39,6 +40,7 @@ public class Auth extends AppCompatActivity {
     EditText etEmail, etPass;
     Button btnNext;
     boolean isEmailValid, isPassValid;
+    SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,26 +151,36 @@ public class Auth extends AppCompatActivity {
 
     public void NextClick(View view)
     {
-        CheckUser c = new CheckUser();
-        String Email = etEmail.getText().toString();
-        String Password = etPass.getText().toString();
-        c.setEmail(Email);
-        c.setPassword(Password);
+        String email = etEmail.getText().toString();
+        String password = etPass.getText().toString();
 
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        Call<List<CheckUser>> call = apiService.getUser();
-        call.enqueue(new Callback<List<CheckUser>>() {
+        Call<Integer> call = apiService.getUser(email, password);
+        call.enqueue(new Callback<Integer>() {
             @Override
-            public void onResponse(Call<List<CheckUser>> call, Response<List<CheckUser>> response) {
-                List<CheckUser> data = response.body();
-                Toast.makeText(Auth.this, "Приветствуем " + etEmail.getText().toString(), Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                Integer id = response.body();
+                if(id != -1){
+
+                    sharedPref = getSharedPreferences("userInfo", MODE_PRIVATE);
+                    SharedPreferences.Editor edit = sharedPref.edit();
+                    edit.putInt("userId", id);
+                    edit.apply();
+
+                    Intent i = new Intent(Auth.this, NavigationActivity.class);
+                    startActivity(i);
+                }
+                else{
+                    Toast.makeText(Auth.this, "Ошибка входа", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
-            public void onFailure(Call<List<CheckUser>> call, Throwable t) {
-                Toast.makeText(Auth.this, "Ошибка: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<Integer> call, Throwable t) {
+
             }
         });
+
     }
 
     public void openBottomMenuClick(View view) {
