@@ -17,11 +17,13 @@ import android.widget.TextView;
 
 import com.example.danyanetwork.Adapters.AdsAdapter;
 import com.example.danyanetwork.Auth;
+import com.example.danyanetwork.CustomCallback;
 import com.example.danyanetwork.Model.AdsInfo;
 import com.example.danyanetwork.Model.UserInfo;
 import com.example.danyanetwork.Network.ApiClient;
 import com.example.danyanetwork.Network.ApiService;
 import com.example.danyanetwork.R;
+import com.example.danyanetwork.Utils.NetworkRequest;
 
 import java.util.List;
 
@@ -38,7 +40,8 @@ public class ProfileFragment extends Fragment {
     Button active, archive;
     RecyclerView rvUserAds;
     ImageView exit;
-
+    List<AdsInfo> adsInfoList;
+    AdsAdapter adapter;
 
 
     public ProfileFragment() {
@@ -61,9 +64,72 @@ public class ProfileFragment extends Fragment {
         userName = view.findViewById(R.id.tvUserName);
         userMoney = view.findViewById(R.id.tvMoney);
         active = view.findViewById(R.id.btnActive);
-        active = view.findViewById(R.id.btnArchive);
+        archive = view.findViewById(R.id.btnArchive);
         rvUserAds = view.findViewById(R.id.rvAds);
         exit = view.findViewById(R.id.imgv_exit);
+
+
+        SharedPreferences sharedPref = getContext().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        Integer userId = sharedPref.getInt("userId", -1);
+        NetworkRequest.getUserInfo(userId, true, new CustomCallback() {
+            @Override
+            public void onSuccess(List<AdsInfo> value) {
+//                userImage.setImageResource(R.drawable.doc_house);
+//                userName.setText(value.getEmail());
+//                userMoney.setText(value.getBalance_avito().toString());
+
+                adsInfoList = value;
+                adapter = new AdsAdapter(getContext(), adsInfoList);
+                rvUserAds.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+
+        active.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                active.setBackground(getResources().getDrawable(R.drawable.bordered_button));
+                archive.setBackground(getResources().getDrawable(R.drawable.bordered_button_unselected));
+                NetworkRequest.getUserInfo(userId, true, new CustomCallback() {
+                    @Override
+                    public void onSuccess(List<AdsInfo> value) {
+                        adsInfoList = value;
+                        adapter = new AdsAdapter(getContext(), adsInfoList);
+                        rvUserAds.setAdapter(adapter);
+                    }
+
+                    @Override
+                    public void onFailure() {
+
+                    }
+                });
+            }
+        });
+
+        archive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                active.setBackground(getResources().getDrawable(R.drawable.bordered_button_unselected));
+                archive.setBackground(getResources().getDrawable(R.drawable.bordered_button));
+                NetworkRequest.getUserInfo(userId, false, new CustomCallback() {
+                    @Override
+                    public void onSuccess(List<AdsInfo> value) {
+                        adsInfoList = value;
+                        adapter = new AdsAdapter(getContext(), adsInfoList);
+                        rvUserAds.setAdapter(adapter);
+                    }
+
+                    @Override
+                    public void onFailure() {
+
+                    }
+                });
+            }
+        });
 
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,48 +144,6 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        SharedPreferences sharedPref = getContext().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        Integer userId = sharedPref.getInt("userId", -1);
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        Call<List<UserInfo>> call = apiService.getUsers(1);
-        call.enqueue(new Callback<List<UserInfo>>() {
-            @Override
-            public void onResponse(Call<List<UserInfo>> call, Response<List<UserInfo>> response) {
-               List<UserInfo> list = response.body();
-               UserInfo tmp = list.get(0);
-
-               userImage.setImageResource(R.drawable.doc_house);
-               userName.setText(tmp.getEmail());
-               userMoney.setText(tmp.getBalance_avito().toString());
-
-               List<AdsInfo> adsInfoList = tmp.getAdsInfoList();
-
-                AdsAdapter adapter = new AdsAdapter(getContext(), adsInfoList);
-                rvUserAds.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(Call<List<UserInfo>> call, Throwable t) {
-
-            }
-        });
-
-
-
-
-//        active.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
-//
-//        archive.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
 
 
         return view;

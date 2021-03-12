@@ -5,7 +5,9 @@ import androidx.constraintlayout.solver.state.State;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.transition.TransitionManager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Patterns;
@@ -149,9 +151,9 @@ public class ActivityReg extends AppCompatActivity {
         RegInfo r = new RegInfo();
         String Email = etEmailReg.getText().toString();
         String Password = etPasswordReg.getText().toString();
-        Integer RoleId = this.roleId;
+        Integer RoleId = 1;
         String PhoneNumber = "123";
-        String CompanyName = etCompanyName.getText().toString();
+        String CompanyName = "test";
         r.setEmail(Email);
         r.setPassword(Password);
         r.setRoleId(RoleId);
@@ -164,6 +166,14 @@ public class ActivityReg extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Toast.makeText(ActivityReg.this, "Добро пожаловать " + etEmailReg.getText().toString(), Toast.LENGTH_SHORT).show();
+                Handler h = new Handler();
+                h.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent i = new Intent(ActivityReg.this, Auth.class);
+                        startActivity(i);
+                    }
+                }, 1500);
             }
 
             @Override
