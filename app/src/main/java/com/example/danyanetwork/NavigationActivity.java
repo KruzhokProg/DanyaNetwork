@@ -20,7 +20,7 @@ public class NavigationActivity extends AppCompatActivity {
         BottomNavigationView menuNav = findViewById(R.id.bottomNavigationView);
         menuNav.setOnNavigationItemSelectedListener(navListener);
         menuNav.findViewById(R.id.person).performClick();
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new ProfileFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new ProfileFragment(getSupportFragmentManager())).commit();
     }
 
 
@@ -31,7 +31,7 @@ public class NavigationActivity extends AppCompatActivity {
 
             switch (item.getItemId()){
                 case R.id.person:
-                    selectedFragment = new ProfileFragment();
+                    selectedFragment = new ProfileFragment(getSupportFragmentManager());
                     break;
             }
 

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -19,18 +20,12 @@ import com.example.danyanetwork.Adapters.AdsAdapter;
 import com.example.danyanetwork.Auth;
 import com.example.danyanetwork.CustomCallback;
 import com.example.danyanetwork.Model.AdsInfo;
-import com.example.danyanetwork.Model.UserInfo;
-import com.example.danyanetwork.Network.ApiClient;
-import com.example.danyanetwork.Network.ApiService;
 import com.example.danyanetwork.R;
 import com.example.danyanetwork.Utils.NetworkRequest;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class ProfileFragment extends Fragment {
@@ -39,13 +34,14 @@ public class ProfileFragment extends Fragment {
     TextView userName, userMoney;
     Button active, archive;
     RecyclerView rvUserAds;
-    ImageView exit;
+    ImageView exit, next;
     List<AdsInfo> adsInfoList;
     AdsAdapter adapter;
+    FragmentManager manager;
 
 
-    public ProfileFragment() {
-
+    public ProfileFragment(FragmentManager manager) {
+        this.manager = manager;
     }
 
 
@@ -60,13 +56,21 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        userImage = view.findViewById(R.id.imgvUserImage);
+        userImage = view.findViewById(R.id.imgvAccountImage);
         userName = view.findViewById(R.id.tvUserName);
         userMoney = view.findViewById(R.id.tvMoney);
         active = view.findViewById(R.id.btnActive);
         archive = view.findViewById(R.id.btnArchive);
         rvUserAds = view.findViewById(R.id.rvAds);
         exit = view.findViewById(R.id.imgv_exit);
+        next = view.findViewById(R.id.imgvToolBarNext);
+
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                manager.beginTransaction().replace(R.id.frame_layout, new AccountInfoFragment()).commit();
+            }
+        });
 
 
         SharedPreferences sharedPref = getContext().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
