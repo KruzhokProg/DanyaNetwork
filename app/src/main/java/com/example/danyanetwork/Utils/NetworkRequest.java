@@ -26,20 +26,25 @@ public class NetworkRequest {
                 UserInfo tmp = list.get(0);
                 List<AdsInfo> out = new ArrayList<>();
 
-                if (active){
-                    List<AdsInfo> ads = tmp.getAdsInfoList();
-                    for (AdsInfo item : ads) {
-                        if(item.getActive()){
-                            out.add(item);
+                if(userId != 123) {
+                    if (active) {
+                        List<AdsInfo> ads = tmp.getAdsInfoList();
+                        for (AdsInfo item : ads) {
+                            if (item.getActive()) {
+                                out.add(item);
+                            }
+                        }
+                    } else {
+                        List<AdsInfo> ads = tmp.getAdsInfoList();
+                        for (AdsInfo item : ads) {
+                            if (!item.getActive()) {
+                                out.add(item);
+                            }
                         }
                     }
-                }else{
-                    List<AdsInfo> ads = tmp.getAdsInfoList();
-                    for (AdsInfo item : ads) {
-                        if(!item.getActive()){
-                            out.add(item);
-                        }
-                    }
+                }
+                else{
+                    out.addAll(tmp.getAdsInfoList());
                 }
 
                 customCallback.onSuccess(out);

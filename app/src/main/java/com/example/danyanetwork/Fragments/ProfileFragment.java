@@ -22,6 +22,7 @@ import com.example.danyanetwork.CustomCallback;
 import com.example.danyanetwork.Model.AdsInfo;
 import com.example.danyanetwork.R;
 import com.example.danyanetwork.Utils.NetworkRequest;
+import com.example.danyanetwork.databinding.FragmentProfileBinding;
 
 import java.util.List;
 
@@ -30,14 +31,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment {
 
-    CircleImageView userImage;
-    TextView userName, userMoney;
-    Button active, archive;
-    RecyclerView rvUserAds;
-    ImageView exit, next;
     List<AdsInfo> adsInfoList;
     AdsAdapter adapter;
     FragmentManager manager;
+    FragmentProfileBinding binding;
 
 
     public ProfileFragment(FragmentManager manager) {
@@ -55,17 +52,9 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        userImage = view.findViewById(R.id.imgvAccountImage);
-        userName = view.findViewById(R.id.tvUserName);
-        userMoney = view.findViewById(R.id.tvMoney);
-        active = view.findViewById(R.id.btnActive);
-        archive = view.findViewById(R.id.btnArchive);
-        rvUserAds = view.findViewById(R.id.rvAds);
-        exit = view.findViewById(R.id.imgv_exit);
-        next = view.findViewById(R.id.imgvToolBarNext);
+        binding = FragmentProfileBinding.inflate(getLayoutInflater(), container, false);
 
-        next.setOnClickListener(new View.OnClickListener() {
+        binding.imgvToolBarNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 manager.beginTransaction().replace(R.id.frame_layout, new AccountInfoFragment()).commit();
@@ -84,7 +73,7 @@ public class ProfileFragment extends Fragment {
 
                 adsInfoList = value;
                 adapter = new AdsAdapter(getContext(), adsInfoList);
-                rvUserAds.setAdapter(adapter);
+                binding.rvAds.setAdapter(adapter);
             }
 
             @Override
@@ -93,17 +82,17 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        active.setOnClickListener(new View.OnClickListener() {
+        binding.btnActive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                active.setBackground(getResources().getDrawable(R.drawable.bordered_button));
-                archive.setBackground(getResources().getDrawable(R.drawable.bordered_button_unselected));
+                binding.btnActive.setBackground(getResources().getDrawable(R.drawable.bordered_button));
+                binding.btnArchive.setBackground(getResources().getDrawable(R.drawable.bordered_button_unselected));
                 NetworkRequest.getUserInfo(userId, true, new CustomCallback() {
                     @Override
                     public void onSuccess(List<AdsInfo> value) {
                         adsInfoList = value;
                         adapter = new AdsAdapter(getContext(), adsInfoList);
-                        rvUserAds.setAdapter(adapter);
+                        binding.rvAds.setAdapter(adapter);
                     }
 
                     @Override
@@ -114,17 +103,17 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        archive.setOnClickListener(new View.OnClickListener() {
+        binding.btnArchive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                active.setBackground(getResources().getDrawable(R.drawable.bordered_button_unselected));
-                archive.setBackground(getResources().getDrawable(R.drawable.bordered_button));
+                binding.btnActive.setBackground(getResources().getDrawable(R.drawable.bordered_button_unselected));
+                binding.btnArchive.setBackground(getResources().getDrawable(R.drawable.bordered_button));
                 NetworkRequest.getUserInfo(userId, false, new CustomCallback() {
                     @Override
                     public void onSuccess(List<AdsInfo> value) {
                         adsInfoList = value;
                         adapter = new AdsAdapter(getContext(), adsInfoList);
-                        rvUserAds.setAdapter(adapter);
+                        binding.rvAds.setAdapter(adapter);
                     }
 
                     @Override
@@ -135,7 +124,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        exit.setOnClickListener(new View.OnClickListener() {
+        binding.imgvExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                SharedPreferences sharedPref = getContext().getSharedPreferences("userInfo",Context.MODE_PRIVATE);
@@ -150,6 +139,6 @@ public class ProfileFragment extends Fragment {
 
 
 
-        return view;
+        return binding.getRoot();
     }
 }
