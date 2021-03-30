@@ -1,5 +1,6 @@
 package com.example.danyanetwork.Network;
 
+import com.example.danyanetwork.Model.AdSearchInfo;
 import com.example.danyanetwork.Model.CheckUser;
 import com.example.danyanetwork.Model.History;
 import com.example.danyanetwork.Model.RegInfo;
@@ -34,4 +35,7 @@ public interface ApiService {
 
     @DELETE("history")
     Call<ResponseBody> clearHistory(@Query("userId") Integer userId);
+
+    @GET("Ads")
+    Call<AdSearchInfo> getSearchAds();
 }

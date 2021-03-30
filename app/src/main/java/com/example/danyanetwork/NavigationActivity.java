@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.danyanetwork.Fragments.AdSearchFragment;
 import com.example.danyanetwork.Fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -33,6 +34,8 @@ public class NavigationActivity extends AppCompatActivity {
                 case R.id.person:
                     selectedFragment = new ProfileFragment(getSupportFragmentManager());
                     break;
+                case R.id.search:
+                    selectedFragment = new AdSearchFragment(getSupportFragmentManager());
             }
 
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, selectedFragment).commit();
